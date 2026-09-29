@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oranje Uurwerk — build the Netherlands, one focused hour at a time</title>
+<meta name="description" content="A Dutch focus timer game. Work or study in 60-minute rounds, unlock the 12 provinces, 12 Dutch icons and 12 Dutch innovations, and make the Netherlands the best country to live in.">
+<meta name="theme-color" content="#B8521E">
+<link rel="icon" type="image/svg+xml" href="assets/logo/flag-of-the-netherlands.svg">
+<link rel="preload" href="assets/fonts/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="mode-focus">
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6.5v13.5L9 17.5l6 2.5 6-2.5V4l-6 2.5L9 4Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="M9 4v13.5M15 6.5V20" stroke="currentColor" stroke-width="2.1"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1L3.2 9.4l6.1-.8L12 3Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16M7 16v-5M12 16V6M17 16v-8" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.1"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.8v.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><circle cx="12" cy="17" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4.9a7.5 7.5 0 0 0-2.6-1.5L14 2.4h-4l-.4 2.5A7.5 7.5 0 0 0 7 6.4l-2.4-.9-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-.9a7.5 7.5 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.5 7.5 0 0 0 2.6-1.5l2.4.9 2-3.4-2-1.6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 5.5v13l9-6.5-9-6.5Z" fill="currentColor"/><rect x="16" y="5" width="3" height="14" rx="1" fill="currentColor"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.3-5.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M4 3.5v5h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5-12-7.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1.2" fill="currentColor"/><rect x="14" y="4.5" width="4" height="15" rx="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="19" r="2" fill="currentColor"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#timer" aria-label="Oranje Uurwerk home">
+      <img class="brand-flag" src="assets/logo/flag-of-the-netherlands.svg" alt="Flag of the Netherlands" width="34" height="23">
+      <span class="brand-text">
+        <span class="brand-name">Oranje Uurwerk</span>
+        <span class="brand-sub">Build the Netherlands, one focused hour at a time</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a class="nav-btn" href="#timer" data-nav="timer"><svg><use href="#i-clock"/></svg><span class="lbl">Timer</span></a>
+      <a class="nav-btn" href="#map" data-nav="map"><svg><use href="#i-map"/></svg><span class="lbl">Provinces</span><i class="dot"></i></a>
+      <a class="nav-btn" href="#icons" data-nav="icons"><svg><use href="#i-star"/></svg><span class="lbl">Icons</span><i class="dot"></i></a>
+      <a class="nav-btn" href="#innovations" data-nav="innovations"><svg><use href="#i-bulb"/></svg><span class="lbl">Innovations</span><i class="dot"></i></a>
+      <a class="nav-btn" href="#nederland" data-nav="nederland"><svg><use href="#i-chart"/></svg><span class="lbl">Nederland</span><i class="dot"></i></a>
+      <a class="nav-btn" href="#guide" data-nav="guide"><svg><use href="#i-help"/></svg><span class="lbl">Guide</span></a>
+    </nav>
+    <button class="nav-btn settings-btn" id="openSettings" type="button" aria-label="Settings"><svg><use href="#i-gear"/></svg><span class="lbl">Settings</span></button>
+  </div>
+  <div class="session-bar" aria-hidden="true"><div id="sessionBar"></div></div>
+</header>
+
+<main>
+  <!-- ============================================================ TIMER -->
+  <section class="view" id="view-timer" data-view="timer" aria-label="Timer">
+    <div class="wrap-narrow">
+      <div class="timer-zone">
+        <div class="timer-card">
+          <div class="windmill" aria-hidden="true">
+            <svg viewBox="0 0 80 96">
+              <path d="M30 40h20l8 56H22l8-56Z" fill="rgba(255,255,255,.92)"/>
+              <path d="M27 41h26l-5-11H32l-5 11Z" fill="#fff"/>
+              <rect x="18" y="62" width="44" height="3.5" rx="1.75" fill="#fff"/>
+              <rect x="36" y="48" width="8" height="8" rx="1.5" fill="rgba(0,0,0,.16)"/>
+              <rect x="35" y="78" width="10" height="18" rx="5" fill="rgba(0,0,0,.2)"/>
+              <g class="sails" fill="none" stroke="#fff" stroke-width="1.6"><g><path d="M40 33V1" stroke-width="2.4"/><rect x="41" y="3" width="10" height="26" fill="rgba(255,255,255,.32)"/><path d="M41 9.5h10M41 16h10M41 22.5h10"/></g><g transform="rotate(90 40 33)"><path d="M40 33V1" stroke-width="2.4"/><rect x="41" y="3" width="10" height="26" fill="rgba(255,255,255,.32)"/><path d="M41 9.5h10M41 16h10M41 22.5h10"/></g><g transform="rotate(180 40 33)"><path d="M40 33V1" stroke-width="2.4"/><rect x="41" y="3" width="10" height="26" fill="rgba(255,255,255,.32)"/><path d="M41 9.5h10M41 16h10M41 22.5h10"/></g><g transform="rotate(270 40 33)"><path d="M40 33V1" stroke-width="2.4"/><rect x="41" y="3" width="10" height="26" fill="rgba(255,255,255,.32)"/><path d="M41 9.5h10M41 16h10M41 22.5h10"/></g><circle cx="40" cy="33" r="3.2" fill="#fff" stroke="none"/></g>
+            </svg>
+          </div>
+          <div class="modes" role="tablist" aria-label="Timer mode">
+            <button class="mode-btn" role="tab" data-mode="focus" type="button">Focus</button>
+            <button class="mode-btn" role="tab" data-mode="short" type="button">Short break</button>
+            <button class="mode-btn" role="tab" data-mode="long" type="button">Long break</button>
+          </div>
+          <div class="clock" id="clock" role="timer" aria-live="off" title="Tap to change the time">60:00</div>
+          <div class="controls">
+            <button class="icon-btn" id="resetBtn" type="button" aria-label="Restart this round" title="Restart this round"><svg><use href="#i-reset"/></svg></button>
+            <button class="start-btn" id="startBtn" type="button">START</button>
+            <button class="icon-btn" id="skipBtn" type="button" aria-label="Finish this round and move on" title="Finish this round and move on"><svg><use href="#i-next"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="round">
+        <div class="round-no" id="roundNo">#1</div>
+        <div class="round-msg" id="roundMsg">Time to focus!</div>
+      </div>
+
+      <section class="journey" aria-labelledby="journeyTitle">
+        <div class="journey-head">
+          <h2 class="journey-title" id="journeyTitle"><small id="levelLabel">Level 1 of 3</small><span id="levelName">The 12 provinces</span></h2>
+          <span class="journey-total" id="journeyTotal">0h 0m of 36h</span>
+        </div>
+        <div class="houses" id="houses"></div>
+        <p class="journey-next" id="journeyNext"></p>
+        <div class="journey-bar" aria-hidden="true"><div id="journeyBar"></div></div>
+      </section>
+
+      <section class="tasks" aria-labelledby="tasksTitle">
+        <div class="tasks-head">
+          <h2 id="tasksTitle">Tasks</h2>
+          <button class="menu-btn" id="taskMenuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Task options"><svg width="18" height="18"><use href="#i-dots"/></svg></button>
+          <div class="menu" id="taskMenu" hidden>
+            <button type="button" data-act="clear-done"><svg width="18" height="18"><use href="#i-check"/></svg>Clear finished tasks</button>
+            <button type="button" data-act="clear-act"><svg width="18" height="18"><use href="#i-reset"/></svg>Reset round counts</button>
+            <button type="button" data-act="clear-all"><svg width="18" height="18"><use href="#i-trash"/></svg>Clear all tasks</button>
+          </div>
+        </div>
+        <ul class="task-list" id="taskList"></ul>
+        <div id="taskEditorSlot"></div>
+        <button class="add-task" id="addTaskBtn" type="button"><svg width="20" height="20"><use href="#i-plus"/></svg>Add task</button>
+        <div class="task-summary" id="taskSummary" hidden></div>
+      </section>
+
+      <section class="nl-live" aria-labelledby="nlLiveTitle">
+        <div class="nl-live-head">
+          <div style="flex:1">
+            <h2 id="nlLiveTitle">Your Netherlands, live</h2>
+            <p>Every minute you focus makes the country better.</p>
+          </div>
+          <div class="rank-chip" title="Best country to live in"><span aria-hidden="true">🏆</span><span id="liveRank">#40</span></div>
+        </div>
+        <div class="mini-stats" id="miniStats"></div>
+        <div class="nl-live-foot"><a class="btn" href="#nederland">See the full report</a></div>
+      </section>
+    </div>
+  </section>
+
+  <!-- ============================================================ MAP -->
+  <section class="view" id="view-map" data-view="map" aria-label="Provinces map">
+    <div class="wrap-wide sheet">
+      <div class="view-head">
+        <div>
+          <h1>The 12 provinces</h1>
+          <p class="lede">Level 1. Every hour of focus unlocks one province. Tap the map to read its story and see its places.</p>
+        </div>
+        <span class="level-badge" id="mapBadge"><span class="count-pill">0 / 12</span> unlocked</span>
+      </div>
+      <div class="map-layout">
+        <div class="map-box">
+          <div id="mapSvgHolder"></div>
+          <div class="map-legend">
+            <span><i class="swatch tulips"></i>Unlocked (tulip colours)</span>
+            <span><i class="swatch locked"></i>Still locked</span>
+          </div>
+        </div>
+        <div id="provDetail" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ ICONS -->
+  <section class="view" id="view-icons" data-view="icons" aria-label="Dutch icons">
+    <div class="wrap-wide sheet">
+      <div class="view-head">
+        <div>
+          <h1>The Flying Dutchmen (and Women)</h1>
+          <p class="lede">Level 2. Twelve famous Dutch people who shaped the world. Hours 13 to 24 bring them to your collection, one per hour.</p>
+        </div>
+        <span class="level-badge" id="iconsBadge"><span class="count-pill">0 / 12</span> collected</span>
+      </div>
+      <div id="iconsLock"></div>
+      <div class="cards" id="iconsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ INNOVATIONS -->
+  <section class="view" id="view-innovations" data-view="innovations" aria-label="Dutch innovations">
+    <div class="wrap-wide sheet">
+      <div class="view-head">
+        <div>
+          <h1>Beyond Windmills</h1>
+          <p class="lede">Level 3. Twelve Dutch inventions and discoveries that changed the world. Hours 25 to 36 unlock them, one per hour.</p>
+        </div>
+        <span class="level-badge" id="innovBadge"><span class="count-pill">0 / 12</span> collected</span>
+      </div>
+      <div id="innovLock"></div>
+      <div class="cards" id="innovGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ NEDERLAND -->
+  <section class="view" id="view-nederland" data-view="nederland" aria-label="Nederland report">
+    <div class="wrap-wide sheet">
+      <div class="rank-hero">
+        <div class="rosette" aria-hidden="true">
+          <svg viewBox="0 0 128 128">
+            <path d="M44 84 30 124l18-8 10 12 8-40Z" fill="#AE1C28"/>
+            <path d="M84 84l14 40-18-8-10 12-8-40Z" fill="#21468B"/>
+            <g fill="#E0662A" id="rosettePetals"></g>
+            <circle cx="64" cy="56" r="36" fill="#C4531C"/>
+            <circle cx="64" cy="56" r="31" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-dasharray="3 4"/>
+          </svg>
+          <div class="r-num" id="bigRank">#40</div>
+        </div>
+        <div class="rank-copy">
+          <h1 id="rankTitle">Best country to live in: #40</h1>
+          <p id="rankText">Focus for 36 hours in total and the Netherlands climbs to number one in the world.</p>
+        </div>
+      </div>
+
+      <h2>How the country is doing</h2>
+      <div class="stat-grid" id="statGrid"></div>
+
+      <h2>Your focus report</h2>
+      <div class="report" id="reportBoxes"></div>
+      <div class="week" id="weekBars"></div>
+      <div class="week-labels" id="weekLabels"></div>
+
+      <h2>Your gift cabinet</h2>
+      <p class="lede">A Delft-blue tile for every hour you complete. Tap a tile to read about your gift.</p>
+      <div class="gifts" id="giftGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ GUIDE -->
+  <section class="view" id="view-guide" data-view="guide" aria-label="Guide">
+    <div class="wrap-wide sheet">
+      <h1>Welcome! Here is how it works</h1>
+      <p class="lede">Oranje Uurwerk means “Orange Clockwork”. <em>Uurwerk</em> is the Dutch word for a clock, and it also sounds like “hour work”. That is exactly what we do here: one good hour of work at a time.</p>
+
+      <div class="guide-grid" style="margin-top:22px">
+        <div class="guide-card">
+          <h3><span class="gi">⏱️</span>The 60 / 10 / 40 rhythm</h3>
+          <ol>
+            <li><b>Focus for 60 minutes.</b> Pick one task and give it your full attention.</li>
+            <li><b>Take a 10-minute short break.</b> Stand up, drink water, look out of the window.</li>
+            <li><b>After 4 focus rounds, take a 40-minute long break.</b> Eat something, go for a walk, rest your eyes.</li>
+          </ol>
+          <p>You can change all of these times in <b>Settings</b>. Choose what works for you.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3><span class="gi">▶️</span>Using the timer</h3>
+          <ul>
+            <li>Press <b>START</b> to begin. Press it again to pause. The space bar works too.</li>
+            <li>Press the <b>arrow button</b> to finish a round early and go to the next one.</li>
+            <li>Press the <b>round arrow</b> to restart the round.</li>
+            <li>When a round ends, the Dutch national anthem, the <em>Wilhelmus</em>, plays for you.</li>
+            <li>Add your tasks below the timer. Tap a task to make it your current task.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card" style="grid-column:1 / -1">
+          <h3><span class="gi">🗺️</span>Three levels, 36 hours</h3>
+          <p>Every full hour of focus unlocks something new. Every minute counts, even if you stop a round early.</p>
+          <div class="levels-row">
+            <div class="lvl l1"><b>Level 1: Provinces</b><span>Hours 1 to 12. Unlock all 12 provinces on the map.</span></div>
+            <div class="lvl l2"><b>Level 2: Dutch icons</b><span>Hours 13 to 24. Meet 12 famous Dutch people.</span></div>
+            <div class="lvl l3"><b>Level 3: Innovations</b><span>Hours 25 to 36. Discover 12 Dutch inventions.</span></div>
+          </div>
+          <p style="margin-top:12px">You also get <b>one gift every hour</b>, like a stroopwafel or a pair of clogs. You can see them all in <b>Nederland</b>.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3><span class="gi">📈</span>Grow the country</h3>
+          <p>While you focus, the Netherlands gets better: its HDI, quality of life, healthcare, safety, education, tourism, population and GDP all go up, live.</p>
+          <p>After 36 hours, the Netherlands becomes the <b>best country in the world to live in</b>. That is the end of the game, and a big celebration. You can keep using the timer after that.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3><span class="gi">💡</span>Tips for a good hour</h3>
+          <ul>
+            <li>Put your phone in another room, or face down.</li>
+            <li>Write the task down before you start. Small tasks are easier to begin.</li>
+            <li>If your mind wanders, that is normal. Just come back to the task.</li>
+            <li>Really rest in your breaks. A rested brain works better.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h3><span class="gi">🔋</span>Keep the timer on time</h3>
+          <ul>
+            <li>You can switch tabs or minimise the window. The timer uses the real clock, so it stays correct.</li>
+            <li>Leave <b>“Keep timer awake”</b> on in Settings. It plays a silent sound so your browser does not slow the page down.</li>
+            <li>Turn on <b>notifications</b> in Settings to get a message when a round ends.</li>
+            <li>Do not close the tab while a round is running. If you do, your time is still saved and the timer continues when you come back.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h3><span class="gi">💾</span>Your progress is safe</h3>
+          <p>Your hours, tasks and settings are saved in this browser on this device. No account is needed.</p>
+          <p>Want to move to another computer? Go to <b>Settings</b> and use <b>Save backup</b>, then <b>Load backup</b> on the other device.</p>
+        </div>
+
+        <div class="guide-card" style="grid-column:1 / -1">
+          <h3><span class="gi">🏁</span>A little motivation</h3>
+          <p>Max Verstappen started in Formula 1 at just 17. Big goals are built one lap, one hour, one small step at a time. Believe in yourself. You can do this.</p>
+          <div class="video">
+            <iframe id="ytFrame" data-src="https://www.youtube-nocookie.com/embed/HmUrbMQSszs?rel=0" title="Max Verstappen: Believe in Yourself" loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <p class="video-note">The video uses YouTube’s privacy-enhanced mode (no cookies until you press play). If it does not load when you open the file from your computer, it will work once the site is on GitHub Pages. You can also <a href="https://www.youtube.com/watch?v=HmUrbMQSszs" target="_blank" rel="noopener">watch it on YouTube</a>.</p>
+        </div>
+      </div>
+
+      <p class="motto">Every hour you give is an hour that builds something.<small>Je kunt het! (You can do it!)</small></p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">Oranje Uurwerk. Made with focus. Photos, texts and anthem supplied by the site owner.</footer>
+
+<!-- Floating mini timer (shown on other pages) -->
+<div class="mini-timer" id="miniTimer" role="group" aria-label="Timer">
+  <button class="mt-time" id="miniTime" type="button" title="Go to the timer">60:00</button>
+  <span class="mt-mode" id="miniMode">Focus</span>
+  <button class="mt-btn" id="miniToggle" type="button" aria-label="Start"><svg><use href="#i-play"/></svg></button>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<canvas class="confetti" id="confetti" aria-hidden="true" popover="manual"></canvas>
+
+<!-- ============================================================ DIALOGS -->
+<dialog id="settingsDlg" aria-labelledby="settingsTitle">
+  <div class="dlg-head"><h2 id="settingsTitle">Settings</h2><button class="dlg-close" type="button" data-close aria-label="Close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+  <div class="dlg-body">
+    <div class="set-sec">
+      <h3><svg width="18" height="18"><use href="#i-clock"/></svg>Timer</h3>
+      <div class="time-grid">
+        <div><label for="setFocus">Focus (min)</label><div class="stepper" data-key="focus"><button type="button" data-step="-1" aria-label="Less focus time">−</button><input id="setFocus" type="number" inputmode="numeric" min="1" max="180"><button type="button" data-step="1" aria-label="More focus time">+</button></div></div>
+        <div><label for="setShort">Short break (min)</label><div class="stepper" data-key="short"><button type="button" data-step="-1" aria-label="Shorter short break">−</button><input id="setShort" type="number" inputmode="numeric" min="1" max="60"><button type="button" data-step="1" aria-label="Longer short break">+</button></div></div>
+        <div><label for="setLong">Long break (min)</label><div class="stepper" data-key="long"><button type="button" data-step="-1" aria-label="Shorter long break">−</button><input id="setLong" type="number" inputmode="numeric" min="1" max="120"><button type="button" data-step="1" aria-label="Longer long break">+</button></div></div>
+      </div>
+      <div class="preset-row" id="presets">
+        <button class="preset" type="button" data-preset="60,10,40">60 / 10 / 40</button>
+        <button class="preset" type="button" data-preset="50,10,30">50 / 10 / 30</button>
+        <button class="preset" type="button" data-preset="25,5,15">25 / 5 / 15</button>
+        <button class="preset" type="button" data-preset="90,15,40">90 / 15 / 40</button>
+      </div>
+      <p class="set-note warn" id="setRunningNote" hidden>A round is in progress. New times start from the next round.</p>
+      <div class="set-row">
+        <div class="sr-text">Long break after<small>How many focus rounds before a long break</small></div>
+        <div class="stepper" data-key="interval"><button type="button" data-step="-1" aria-label="Fewer rounds">−</button><input id="setInterval" type="number" inputmode="numeric" min="1" max="12" aria-label="Rounds before a long break"><button type="button" data-step="1" aria-label="More rounds">+</button></div>
+      </div>
+      <div class="set-row">
+        <div class="sr-text">Auto-start breaks<small>A break starts by itself after a focus round</small></div>
+        <label class="toggle"><input type="checkbox" id="setAutoBreaks" aria-label="Auto-start breaks"><span class="track"></span></label>
+      </div>
+      <div class="set-row">
+        <div class="sr-text">Auto-start focus rounds<small>A focus round starts by itself after a break</small></div>
+        <label class="toggle"><input type="checkbox" id="setAutoFocus" aria-label="Auto-start focus rounds"><span class="track"></span></label>
+      </div>
+    </div>
+
+    <div class="set-sec">
+      <h3><svg width="18" height="18"><use href="#i-sound"/></svg>Sound</h3>
+      <p class="set-note" style="margin:0 0 10px">When a round ends, the <b>Wilhelmus</b> (Dutch national anthem, instrumental) plays.</p>
+      <div class="range-row">
+        <label for="setVolume" class="sr-text" style="font-weight:800">Volume</label>
+        <input type="range" id="setVolume" min="0" max="100" step="5">
+        <output id="volOut" for="setVolume">80%</output>
+        <button class="btn" type="button" id="testSound"><svg><use href="#i-play"/></svg>Test</button>
+      </div>
+      <div class="set-row">
+        <div class="sr-text">Play the anthem for<small id="alarmLenHint">seconds (48 = the full anthem)</small></div>
+        <div class="stepper" data-key="alarmSecs"><button type="button" data-step="-1" aria-label="Shorter">−</button><input id="setAlarm" type="number" inputmode="numeric" min="3" max="48" aria-label="Alarm length in seconds"><button type="button" data-step="1" aria-label="Longer">+</button></div>
+      </div>
+      <div class="set-row">
+        <div class="sr-text">Unlock chimes<small>A short happy sound when you unlock something</small></div>
+        <label class="toggle"><input type="checkbox" id="setChimes" aria-label="Unlock chimes"><span class="track"></span></label>
+      </div>
+    </div>
+
+    <div class="set-sec">
+      <h3><svg width="18" height="18"><use href="#i-bulb"/></svg>Background and alerts</h3>
+      <div class="set-row" style="margin-top:0">
+        <div class="sr-text">Keep timer awake<small>Plays a silent sound while the timer runs, so your browser does not slow it down in the background</small></div>
+        <label class="toggle"><input type="checkbox" id="setKeepAwake" aria-label="Keep timer awake"><span class="track"></span></label>
+      </div>
+      <div class="set-row">
+        <div class="sr-text">Notifications<small id="notifyHint">Get a message when a round ends</small></div>
+        <label class="toggle"><input type="checkbox" id="setNotify" aria-label="Notifications"><span class="track"></span></label>
+      </div>
+    </div>
+
+    <div class="set-sec">
+      <h3><svg width="18" height="18"><use href="#i-chart"/></svg>Your data</h3>
+      <div class="data-row">
+        <button class="btn" type="button" id="exportBtn">Save backup</button>
+        <button class="btn" type="button" id="importBtn">Load backup</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+        <button class="btn btn-danger" type="button" id="resetAllBtn">Start over</button>
+      </div>
+      <p class="set-note" id="storageNote">Saved in this browser.</p>
+    </div>
+  </div>
+  <div class="dlg-foot"><button class="btn btn-dark" type="button" data-close>Done</button></div>
+</dialog>
+
+<dialog id="unlockDlg" class="unlock" aria-labelledby="unlockTitle">
+  <div class="unlock-top" id="unlockTop">
+    <div class="u-kicker" id="unlockKicker">Hour 1 complete!</div>
+    <h2 id="unlockTitle">Drenthe</h2>
+    <div class="u-sub" id="unlockSub"></div>
+  </div>
+  <div class="unlock-img" id="unlockImg"></div>
+  <div class="unlock-body" id="unlockBody"></div>
+  <div class="dlg-foot" id="unlockFoot"></div>
+</dialog>
+
+<dialog id="itemDlg" class="item-dlg" aria-labelledby="itemTitle">
+  <div class="dlg-head"><span class="item-kicker" id="itemKicker"></span><button class="dlg-close" type="button" data-close aria-label="Close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+  <div class="dlg-body">
+    <div class="item-layout">
+      <div class="item-img" id="itemImg"></div>
+      <div>
+        <h2 id="itemTitle"></h2>
+        <div class="item-sub" id="itemSub"></div>
+        <div class="facts" id="itemFacts"></div>
+        <div class="item-story" id="itemStory"></div>
+      </div>
+    </div>
+  </div>
+  <div class="dlg-foot">
+    <button class="btn btn-ghost" type="button" id="itemPrev"><svg><use href="#i-left"/></svg>Previous</button>
+    <button class="btn btn-ghost" type="button" id="itemNext">Next<svg><use href="#i-right"/></svg></button>
+    <span style="flex:1"></span>
+    <button class="btn btn-dark" type="button" data-close>Close</button>
+  </div>
+</dialog>
+
+<dialog id="lightbox" class="lightbox" aria-label="Photo viewer">
+  <div class="lb-img" id="lbImg"></div>
+  <div class="lb-bar">
+    <button class="lb-nav" type="button" id="lbPrev" aria-label="Previous photo"><svg width="20" height="20"><use href="#i-left"/></svg></button>
+    <button class="lb-nav" type="button" id="lbNext" aria-label="Next photo"><svg width="20" height="20"><use href="#i-right"/></svg></button>
+    <div class="lb-cap" id="lbCap"></div>
+    <div class="lb-count" id="lbCount"></div>
+    <button class="dlg-close" type="button" data-close aria-label="Close"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+  </div>
+</dialog>
+
+<dialog id="confirmDlg" class="confirm" aria-labelledby="confirmTitle">
+  <div class="dlg-body"><h2 id="confirmTitle"></h2><p id="confirmText"></p></div>
+  <div class="dlg-foot"><button class="btn btn-ghost" type="button" id="confirmNo">Cancel</button><button class="btn btn-dark" type="button" id="confirmYes">OK</button></div>
+</dialog>
+
+<dialog id="giftDlg" class="confirm" aria-labelledby="giftTitle">
+  <div class="dlg-body" style="text-align:center">
+    <div id="giftEmo" style="font-size:64px;line-height:1.1"></div>
+    <h2 id="giftTitle" style="margin-top:8px"></h2>
+    <p id="giftText"></p>
+    <p id="giftHour" style="margin-top:10px;font-weight:800;color:var(--delft)"></p>
+  </div>
+  <div class="dlg-foot"><button class="btn btn-dark" type="button" data-close>Lovely</button></div>
+</dialog>
+
+<dialog id="finaleDlg" class="finale" aria-labelledby="finaleTitle">
+  <div class="finale-top">
+    <div class="crown" aria-hidden="true">👑</div>
+    <h2 id="finaleTitle">Gefeliciteerd! You did it!</h2>
+    <p>36 hours of focus. The Netherlands is now the best country in the world to live in.</p>
+  </div>
+  <div class="finale-list" id="finaleList"></div>
+  <div class="dlg-body" style="padding-top:10px"><p style="margin:0;color:var(--ink-soft)">You unlocked all 12 provinces, all 12 Dutch icons, all 12 innovations and 36 gifts. That is real, hard work. Be proud of yourself.</p></div>
+  <div class="dlg-foot" style="justify-content:center">
+    <button class="btn" type="button" id="finaleNew">Start a new journey</button>
+    <button class="btn btn-dark" type="button" data-close autofocus>Keep focusing</button>
+  </div>
+</dialog>
+
+<audio id="alarm" src="assets/audio/wilhelmus-instrumental.mp3" preload="auto"></audio>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/views.js"></script>
+</body>
+</html>
